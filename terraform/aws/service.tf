@@ -6,6 +6,11 @@ resource "aws_ecs_service" "app" {
   desired_count = 1
 
   launch_type = "FARGATE"
+  lifecycle {
+    ignore_changes = [
+      task_definition
+    ]
+  }
 
   network_configuration {
     subnets = [

@@ -34,7 +34,12 @@ jobs:
         run: |
           docker build \
             --build-arg APP_VERSION=${GITHUB_SHA::7} \
-            -t ${{ secrets.ECR_REGISTRY }}/$ECR_REPOSITORY:${{ github.sha }} .
+            -t $ECR_REPOSITORY:${{ github.sha }} .
+
+      - name: Tag Docker image
+        run: |
+          docker tag $ECR_REPOSITORY:${{ github.sha }} \
+          ${{ secrets.ECR_REGISTRY }}/$ECR_REPOSITORY:${{ github.sha }}
 
       - name: Push Docker image to ECR
         run: |
